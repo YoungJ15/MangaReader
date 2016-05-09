@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/genre_list"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Genre List" />
+        <item
+            android:id="@+id/manga_list"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Manga List" />
+        <item
+            android:id="@+id/favorite_manga_list"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="My Favorite Manga" />
+        <item
+            android:id="@+id/manga_desc"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Manga Description" />
+    </group>
+
+</menu>
