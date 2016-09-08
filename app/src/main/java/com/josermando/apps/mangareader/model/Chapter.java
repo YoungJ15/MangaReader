@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class Chapter implements Serializable {
     private String id;
     private String name;
+    private String imgUrl;
 
     public Chapter() {
     }
@@ -28,6 +29,13 @@ public class Chapter implements Serializable {
         this.name = name;
     }
 
+    public String getImgUrl(){
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl){
+        this.imgUrl = imgUrl;
+    }
     @Override
     public String toString() {
         return getName()+" "+getId();

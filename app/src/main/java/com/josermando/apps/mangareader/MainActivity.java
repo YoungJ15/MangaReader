@@ -13,8 +13,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.josermando.apps.mangareader.fragments.FavoriteMangasFragment;
-import com.josermando.apps.mangareader.fragments.MainWebViewFragment;
-import com.josermando.apps.mangareader.fragments.MangaChapterFragment;
 import com.josermando.apps.mangareader.fragments.MangaListFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -35,7 +33,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         setUpDrawer(toolbar);
-        getFragmentManager().beginTransaction().add(R.id.site_container,new MainWebViewFragment()).commit();
+        getFragmentManager().beginTransaction().add(R.id.site_container,new MangaListFragment()).commit();
     }
 
     private void setUpDrawer(Toolbar toolbar){
@@ -70,12 +68,7 @@ public class MainActivity extends AppCompatActivity
         //Fragments
         MangaListFragment mangaListFragment = new MangaListFragment();
 
-        if (id == R.id.genre_list) {
-            getFragmentManager().beginTransaction().replace(R.id.site_container,new MainWebViewFragment()).commit();
-        } else if (id == R.id.manga_list) {
-            getFragmentManager().beginTransaction().add(R.id.site_container, mangaListFragment).addToBackStack("Manga").commit();
-
-        } else if (id == R.id.favorite_manga_list) {
+        if (id == R.id.favorite_manga_list) {
             getFragmentManager().beginTransaction().replace(R.id.site_container, new FavoriteMangasFragment()).addToBackStack("FavoriteManga").commit();
 
         } else if (id == R.id.manga_desc) {
