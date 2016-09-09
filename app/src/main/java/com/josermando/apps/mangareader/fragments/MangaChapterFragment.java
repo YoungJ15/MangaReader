@@ -41,7 +41,6 @@ public class MangaChapterFragment extends Fragment {
     private RecyclerChapterAdapter recyclerChapterAdapter;
     private RecyclerView recyclerView;
     private ImageView imageViewChapter;
-    private Chapter chapter;
     private List<Chapter> chapterList = new ArrayList<>();
 
 
@@ -53,12 +52,10 @@ public class MangaChapterFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_chapter);
         imageViewChapter = (ImageView) view.findViewById(R.id.imageViewChapter);
 
-        chapter = new Chapter();
-        //Collections.reverse(chapterList);
+        Collections.reverse(chapterList);
         String mangaID = getArguments().getString("mangaID");
         if (chapterList.size() <= 0) {
             new FetchChapterTask().execute(mangaID);
-            //downloadImage("https://cdn.mangaeden.com/mangasimg/", chapter.getImgUrl(), getActivity().getApplicationContext());
         } else {
             setUpRecyclerView(chapterList);
         }
@@ -68,6 +65,7 @@ public class MangaChapterFragment extends Fragment {
     public void setUpRecyclerView(List<Chapter> values) {
         recyclerChapterAdapter = new RecyclerChapterAdapter(getActivity(), values);
         recyclerView.setAdapter(recyclerChapterAdapter);
+        downloadImage("https://cdn.mangaeden.com/mangasimg/",values.get(0).getImgUrl() , getActivity().getApplicationContext());
 
         //Layout Manager
         LinearLayoutManager mLinearLayoutManagerVertical = new LinearLayoutManager(getActivity());
@@ -90,17 +88,18 @@ public class MangaChapterFragment extends Fragment {
         private final String LOG_TAG = FetchChapterTask.class.getSimpleName();
 
         private List<Chapter> getChapterListFromJSON(String chapterjsonString) throws JSONException {
-
+            Chapter chapter = null;
             JSONObject CHAPTERJSON = new JSONObject(chapterjsonString);
             JSONArray JSONChapterArray = null;
             JSONArray JSONChapterArray2 = null;
 
             JSONChapterArray = CHAPTERJSON.getJSONArray("chapters");
 
-            chapter.setImgUrl(CHAPTERJSON.getString("image"));
+            String image = CHAPTERJSON.getString("image");
             for (int i = 0; i < JSONChapterArray.length(); i++) {
                 JSONChapterArray2 = JSONChapterArray.getJSONArray(i);
 
+                chapter = new Chapter();
                 chapter.setName(JSONChapterArray2.getString(2));
                 chapter.setId(JSONChapterArray2.getString(3));
 
@@ -109,7 +108,8 @@ public class MangaChapterFragment extends Fragment {
             if (chapter != null) {
                 Log.v(LOG_TAG + " Chapter Name: ", chapter.getName());
                 Log.v(LOG_TAG + " Chapter ID: ", chapter.getId());
-                Log.v(LOG_TAG + " Chapter Image Url ", chapter.getImgUrl());
+                chapter.setImgUrl(image);
+                Log.v(LOG_TAG + " Manga Image: ", chapter.getImgUrl());
             }
 
             Collections.reverse(chapterList);
@@ -192,9 +192,8 @@ public class MangaChapterFragment extends Fragment {
         protected void onPostExecute(List<Chapter> strings) {
             if (strings != null) {
                 Log.v(LOG_TAG + " Response Value: ", String.valueOf(strings));
-                downloadImage("https://cdn.mangaeden.com/mangasimg/", chapter.getImgUrl(), getActivity().getApplicationContext());
-                for (Chapter chapter : strings) {
 
+                for (Chapter chapter : strings) {
                     setUpRecyclerView(strings);
                     recyclerChapterAdapter.getItemCount();
                 }
